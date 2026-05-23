@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLUG Road – Katalog</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<!--
+═══════════════════════════════════════════════════════════════════
+  PLUG ROAD - BILDER MANUELL EINFÜGEN
+═══════════════════════════════════════════════════════════════════
+
+  LOGO einfügen:
+  - Im Code an 4 Stellen "LOGO HIER" suchen
+  - Den ganzen <div class="..."> Platzhalter durch <img> ersetzen
+  - Beispiel: <img src="logo.jpg" style="width:130px;height:auto">
+
+  PRODUKTBILDER einfügen:
+  - Unten im <script> bei "PRODUKTLISTE" das Feld "img" befüllen
+  - Beispiel: img: 'bilder/slim-fit-chino.jpg'
+
+  Bilder-Ordner: erstelle einen Ordner "bilder" neben dieser HTML
+═══════════════════════════════════════════════════════════════════
+-->
+
+<style>
+  :root {
+    /* ───────── PLUG ROAD · Dribbble-Aureus Theme ─────────
+       Dark base + warm bronze accent inspired by the logo */
+    --bg-0: #0E0C0A;          /* deepest background  */
+    --bg-1: #161310;          /* card / panel        */
+    --bg-2: #1F1A15;          /* elevated panel      */
+    --bg-3: #2A2520;          /* borders / dividers  */
+    --line: rgba(166,107,60,0.22);
+    --line-soft: rgba(255,255,255,0.06);
+
+    --bronze:        #B07A4A; /* primary accent (logo color) */
+    --bronze-hi:     #C68D58; /* hover / highlight   */
+    --bronze-lo:     #8A5C36; /* deeper accent       */
+    --bronze-glow:   rgba(176,122,74,0.35);
+
+    --text:        #F4ECE2;   /* primary text        */
+    --text-mute:   #B8AFA3;   /* secondary text      */
+    --text-dim:    #6E6358;   /* tertiary / meta     */
+
+    /* ───── Legacy aliases (alte Klassen weiter funktional) ───── */
+    --p1: var(--bg-0);
+    --p2: var(--bg-1);
+    --p3: var(--bronze);
+    --p4: var(--text-mute);
+    --p5: var(--bronze-hi);
+    --l1: var(--bg-3);
+    --l2: var(--bg-2);
+    --l3: var(--text);
+    --l4: var(--bg-0);
+    --white: var(--bg-1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Lato',sans-serif;
+    background:var(--bg-0);
+    color:var(--text);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  /* Subtle grain over the whole page — adds Aureus-style atmosphere */
+  body::before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, rgba(176,122,74,0.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(176,122,74,0.06), transparent 60%);
+    opacity:.9;
+  }
+  ::selection{background:var(--bronze);color:var(--bg-0);}
+
+  #login-screen{position:fixed;inset:0;background:radial-gradient(ellipse at center, #1A1611 0%, #0A0907 80%);display:flex;align-items:center;justify-content:center;z-index:9999;}
+  #login-screen::after{content:'';position:absolute;inset:0;background:radial-gradient(600px 400px at 50% 30%, rgba(176,122,74,0.18), transparent 70%);pointer-events:none;}
+  .login-box{position:relative;background:rgba(22,19,16,0.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);padding:3rem 3.5rem;width:100%;max-width:420px;text-align:center;border-radius:4px;box-shadow:0 30px 80px rgba(0,0,0,0.6);}
+  .login-brand{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--text);letter-spacing:0.06em;}
+  .login-sub{font-size:10px;color:var(--text-dim);letter-spacing:0.28em;text-transform:uppercase;margin-top:6px;margin-bottom:2rem;}
+  .login-div{width:40px;height:1px;background:var(--bronze);margin:0 auto 2rem;}
+  .login-label{display:block;text-align:left;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px;}
+  .login-input{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--bg-3);color:var(--text);padding:14px 16px;font-family:'Lato',sans-serif;font-size:15px;outline:none;margin-bottom:20px;border-radius:2px;transition:border-color .2s, background .2s;}
+  .login-input:focus{border-color:var(--bronze);background:rgba(176,122,74,0.06);}
+  .login-btn{width:100%;background:var(--bronze);border:none;color:#0E0C0A;font-family:'Lato',sans-serif;font-size:11px;font-weight:900;letter-spacing:0.22em;text-transform:uppercase;padding:16px;cursor:pointer;border-radius:2px;transition:background .2s, transform .15s;}
+  .login-btn:hover{background:var(--bronze-hi);transform:translateY(-1px);}
+  .login-error{color:#d47070;font-size:13px;margin-top:12px;min-height:18px;}
+  .login-hint{font-size:10px;color:var(--text-dim);margin-top:20px;letter-spacing:0.15em;text-transform:uppercase;}
+
+  #app{display:none;min-height:100vh;position:relative;z-index:2;}
+
+  #admin-bar{display:none;background:var(--bg-1);border-bottom:1px solid var(--bg-3);padding:10px 2rem;}
+  .admin-bar-inner{max-width:1400px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .admin-bar-label{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--bronze-hi);margin-right:8px;}
+  .abar-btn{background:rgba(176,122,74,0.08);border:1px solid var(--line);color:var(--text);font-family:'Lato',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:8px 16px;cursor:pointer;border-radius:2px;transition:background .2s, border-color .2s;}
+  .abar-btn:hover{background:rgba(176,122,74,0.18);border-color:var(--bronze);}
+
+  header{
+    background:rgba(14,12,10,0.75);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+    position:sticky;top:0;z-index:100;
+  }
+  .header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;padding:0 2.5rem;height:80px;gap:2rem;}
+  .header-logo{display:flex;align-items:center;gap:14px;}
+  .brand-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);letter-spacing:0.14em;line-height:1;}
+  .brand-road{font-family:'Playfair Display',serif;font-size:11px;font-weight:400;font-style:italic;color:var(--bronze);letter-spacing:0.18em;margin-top:2px;}
+  nav{display:flex;gap:0;flex:1;justify-content:center;overflow-x:auto;}
+  nav::-webkit-scrollbar{display:none;}
+  .nav-btn{
+    background:none;border:none;
+    color:var(--text-mute);
+    font-family:'Lato',sans-serif;font-size:10.5px;font-weight:700;
+    letter-spacing:0.22em;text-transform:uppercase;
+    padding:10px 18px;cursor:pointer;white-space:nowrap;
+    border-bottom:1px solid transparent;
+    transition:color .25s, border-color .25s;
+  }
+  .nav-btn:hover,.nav-btn.active{color:var(--text);border-bottom-color:var(--bronze);}
+  .header-actions{display:flex;align-items:center;gap:12px;margin-left:auto;}
+  .cart-btn{
+    background:var(--bronze);border:none;color:#0E0C0A;
+    font-family:'Lato',sans-serif;font-size:10.5px;font-weight:900;
+    letter-spacing:0.2em;text-transform:uppercase;
+    padding:12px 22px;cursor:pointer;display:flex;align-items:center;gap:10px;
+    border-radius:2px;
+    transition:background .2s, transform .15s, box-shadow .2s;
+  }
+  .cart-btn:hover{background:var(--bronze-hi);transform:translateY(-1px);box-shadow:0 8px 24px var(--bronze-glow);}
+  .cart-count{background:rgba(14,12,10,0.85);color:var(--bronze-hi);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+  .admin-badge{background:rgba(176,122,74,0.12);border:1px solid var(--line);color:var(--bronze-hi);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:6px 12px;border-radius:2px;}
+  .logout-btn{background:none;border:1px solid var(--bg-3);color:var(--text-dim);font-size:10px;font-family:'Lato',sans-serif;padding:8px 14px;cursor:pointer;letter-spacing:0.18em;text-transform:uppercase;border-radius:2px;transition:border-color .2s, color .2s;}
+  .logout-btn:hover{border-color:var(--bronze);color:var(--bronze-hi);}
+
+  /* ───────── HERO — Aureus-Style ───────── */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(900px 500px at 75% 35%, rgba(176,122,74,0.14), transparent 60%),
+      linear-gradient(180deg, #0E0C0A 0%, #161310 100%);
+    padding:6rem 2.5rem 7rem;
+    border-bottom:1px solid var(--line-soft);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(176,122,74,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(176,122,74,0.04) 1px, transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse at center, black 30%, transparent 75%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    position:relative;z-index:2;
+    max-width:1400px;margin:0 auto;
+    display:grid;grid-template-columns:1.05fr 1fr;gap:3rem;align-items:center;
+    min-height:520px;
+  }
+  .hero-left{padding:1rem 0;}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:12px;
+    font-size:10px;letter-spacing:0.32em;text-transform:uppercase;
+    color:var(--bronze-hi);
+    margin-bottom:2rem;
+    opacity:0;animation:fadeUp .9s .15s forwards;
+  }
+  .hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--bronze);}
+  .hero-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(40px, 5.4vw, 78px);
+    font-weight:400;
+    color:var(--text);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    margin-bottom:1.5rem;
+    opacity:0;animation:fadeUp 1s .3s forwards;
+  }
+  .hero-title em{
+    font-style:italic;font-weight:400;
+    color:var(--bronze-hi);
+    background:linear-gradient(135deg, #D4A06A 0%, #B07A4A 60%, #8A5C36 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .hero-road{display:none;} /* alte Klasse ausblenden */
+  .hero-divider{display:none;}
+  .hero-sub{
+    font-size:15px;line-height:1.75;color:var(--text-mute);
+    max-width:480px;letter-spacing:0;text-transform:none;
+    margin-bottom:2.5rem;
+    opacity:0;animation:fadeUp 1s .45s forwards;
+  }
+  .hero-cta{
+    display:inline-flex;align-items:center;gap:14px;
+    background:var(--bronze);color:#0E0C0A;
+    font-family:'Lato',sans-serif;font-size:11px;font-weight:900;
+    letter-spacing:0.24em;text-transform:uppercase;
+    padding:18px 32px;
+    border:none;cursor:pointer;
+    border-radius:2px;
+    transition:background .2s, transform .15s, box-shadow .25s;
+    opacity:0;animation:fadeUp 1s .6s forwards;
+  }
+  .hero-cta:hover{background:var(--bronze-hi);transform:translateY(-2px);box-shadow:0 14px 36px var(--bronze-glow);}
+  .hero-cta::after{content:'→';font-size:14px;}
+
+  /* Right column: large logo with annotation lines */
+  .hero-right{
+    position:relative;
+    height:520px;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;animation:fadeIn 1.4s .4s forwards;
+  }
+  .hero-logo-stage{
+    position:relative;
+    width:380px;height:380px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hero-logo-stage::before{
+    content:'';position:absolute;inset:-40px;
+    background:radial-gradient(circle, rgba(176,122,74,0.28) 0%, transparent 65%);
+    filter:blur(20px);
+    z-index:0;
+  }
+  .hero-logo-slot{position:relative;z-index:2;animation:float 6s ease-in-out infinite;}
+  .hero-logo-slot img{
+    width:340px!important;height:auto;display:block;margin:0!important;
+    opacity:1!important;
+    filter:drop-shadow(0 20px 50px rgba(176,122,74,0.4));
+    /* HINWEIS: falls dein Logo.png einen weißen Hintergrund hat statt Transparenz,
+       diese Zeile aktivieren: mix-blend-mode: lighten; */
+  }
+
+  /* Annotation lines à la "18k Gold / Cuban Curve" */
+  .hero-annot{
+    position:absolute;z-index:3;
+    display:flex;align-items:center;gap:10px;
+    font-family:'Lato',sans-serif;
+    font-size:10.5px;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--text);
+    white-space:nowrap;
+    opacity:0;animation:fadeIn 1s 1.1s forwards;
+  }
+  .hero-annot .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--bronze);
+    box-shadow:0 0 0 4px rgba(176,122,74,0.18);
+    flex-shrink:0;
+  }
+  .hero-annot .line{
+    height:1px;background:linear-gradient(90deg, var(--bronze), transparent);
+    flex-shrink:0;
+  }
+  .hero-annot.a1{top:8%;right:-30px;}
+  .hero-annot.a1 .line{width:60px;}
+  .hero-annot.a2{bottom:14%;right:-60px;}
+  .hero-annot.a2 .line{width:80px;}
+  .hero-annot.a3{top:48%;left:-40px;flex-direction:row-reverse;}
+  .hero-annot.a3 .line{width:60px;background:linear-gradient(-90deg, var(--bronze), transparent);}
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+  @keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+  }
+
+  main{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:5rem 2.5rem;}
+
+  .cat-tabs{
+    display:flex;gap:0;flex-wrap:wrap;
+    margin-bottom:3rem;
+    border-bottom:1px solid var(--bg-3);
+  }
+  .cat-tab{
+    background:none;border:none;
+    font-family:'Lato',sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--text-dim);
+    padding:14px 22px;cursor:pointer;
+    border-bottom:2px solid transparent;margin-bottom:-1px;
+    transition:color .25s, border-color .25s;
+  }
+  .cat-tab:hover{color:var(--text-mute);}
+  .cat-tab.active{color:var(--bronze-hi);border-bottom-color:var(--bronze);}
+
+  .section-header{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:2.5rem;
+    padding-bottom:1.25rem;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .section-title{
+    font-family:'Playfair Display',serif;
+    font-size:34px;font-weight:400;
+    color:var(--text);letter-spacing:-0.005em;
+  }
+  .section-count{font-size:10px;color:var(--bronze-hi);letter-spacing:0.22em;text-transform:uppercase;}
+
+  .product-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+    gap:2rem;margin-bottom:5rem;
+  }
+  .product-card{
+    background:var(--bg-1);
+    border:1px solid var(--bg-3);
+    position:relative;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s;
+    border-radius:3px;overflow:hidden;
+  }
+  .product-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 28px 60px rgba(0,0,0,0.5), 0 0 0 1px var(--bronze-glow);
+    border-color:var(--bronze-lo);
+  }
+  .product-img{
+    width:100%;aspect-ratio:3/4;
+    background:linear-gradient(145deg, var(--bg-2) 0%, var(--bg-1) 100%);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .product-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1);}
+  .product-card:hover .product-img img{transform:scale(1.04);}
+  .img-ph{display:flex;flex-direction:column;align-items:center;gap:12px;padding:1rem;text-align:center;}
+  .img-ph-icon{width:60px;height:60px;border:1px dashed var(--bg-3);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--bronze-lo);border-radius:50%;}
+  .img-ph-name{font-size:11px;color:var(--text-mute);letter-spacing:0.08em;line-height:1.4;}
+  .img-ph-filename{font-family:monospace;font-size:10px;color:var(--text-dim);background:var(--bg-2);padding:3px 8px;margin-top:4px;display:inline-block;border-radius:2px;}
+  .admin-overlay{position:absolute;inset:0;background:rgba(10,8,6,0.78);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;opacity:0;transition:opacity .25s;}
+  .product-card:hover .admin-overlay{opacity:1;}
+  .admin-edit-btn{background:var(--bronze);border:none;color:#0E0C0A;font-family:'Lato',sans-serif;font-size:10px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;padding:11px 0;cursor:pointer;width:170px;text-align:center;border-radius:2px;}
+  .admin-edit-btn:hover{background:var(--bronze-hi);}
+  .admin-del-btn{background:transparent;border:1px solid rgba(220,80,80,0.5);color:#e07070;font-family:'Lato',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:9px 0;cursor:pointer;width:170px;text-align:center;border-radius:2px;}
+  .admin-del-btn:hover{background:rgba(220,80,80,0.15);}
+  .product-info{padding:1.5rem 1.5rem 1.25rem;}
+  .product-cat-tag{font-size:9.5px;letter-spacing:0.28em;text-transform:uppercase;color:var(--bronze-hi);margin-bottom:10px;}
+  .product-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.3;letter-spacing:-0.005em;}
+  .product-desc{font-size:13px;color:var(--text-mute);line-height:1.7;margin-bottom:1.25rem;}
+  .meta-row{margin-bottom:12px;}
+  .meta-row-label{font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;}
+  .meta-tags{display:flex;gap:6px;flex-wrap:wrap;}
+  .meta-tag{font-size:11px;background:var(--bg-2);color:var(--text-mute);padding:4px 11px;border:1px solid var(--bg-3);border-radius:2px;letter-spacing:0.04em;}
+
+  /* ═══════════ SIZE / COLOR PICKER (Customer Selection) ═══════════ */
+  .picker-label{
+    font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--text-dim);margin-bottom:8px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .picker-label .req{
+    color:#d47070;font-weight:900;letter-spacing:0;
+  }
+  .picker-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+  .picker-opt{
+    background:transparent;
+    border:1px solid var(--bg-3);
+    color:var(--text-mute);
+    font-family:'Lato',sans-serif;
+    font-size:11px;font-weight:700;
+    letter-spacing:0.12em;text-transform:uppercase;
+    padding:7px 14px;cursor:pointer;
+    border-radius:2px;min-width:42px;
+    transition:all .2s;
+  }
+  .picker-opt:hover{
+    border-color:var(--bronze-lo);
+    color:var(--text);
+  }
+  .picker-opt.active{
+    background:var(--bronze);
+    border-color:var(--bronze);
+    color:#0E0C0A;
+  }
+  .picker-hint{
+    font-size:10px;color:#d47070;
+    letter-spacing:0.08em;margin-bottom:10px;
+    opacity:0;max-height:0;overflow:hidden;
+    transition:opacity .2s, max-height .25s;
+  }
+  .picker-hint.show{opacity:1;max-height:24px;}
+
+  /* Im Cart: kompaktere Variante */
+  .cart-item .picker-label{font-size:9px;margin-top:8px;margin-bottom:6px;}
+  .cart-item .picker-row{margin-bottom:6px;gap:4px;}
+  .cart-item .picker-opt{font-size:10px;padding:4px 9px;min-width:32px;letter-spacing:0.08em;}
+  .add-to-cart{
+    width:100%;background:transparent;
+    border:none;border-top:1px solid var(--bg-3);
+    color:var(--text);
+    font-family:'Lato',sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:0.22em;text-transform:uppercase;
+    padding:16px;cursor:pointer;
+    transition:background .2s, color .2s, letter-spacing .25s;
+  }
+  .add-to-cart:hover{background:var(--bronze);color:#0E0C0A;letter-spacing:0.28em;}
+  .add-to-cart.added{background:var(--bronze-lo);color:var(--text);}
+
+  #cart-sidebar{position:fixed;right:-400px;top:0;bottom:0;width:380px;background:var(--bg-1);border-left:1px solid var(--bg-3);z-index:2000;display:flex;flex-direction:column;transition:right 0.4s cubic-bezier(0.4,0,0.2,1);box-shadow:-8px 0 60px rgba(0,0,0,0.6);}
+  #cart-sidebar.open{right:0;}
+  .cart-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);z-index:1999;}
+  .cart-overlay.open{display:block;}
+  .cart-header{background:var(--bg-0);padding:1.75rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bg-3);}
+  .cart-header-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);letter-spacing:0.02em;}
+  .cart-close{background:none;border:none;color:var(--text-mute);font-size:26px;cursor:pointer;line-height:1;transition:color .2s;}
+  .cart-close:hover{color:var(--bronze-hi);}
+  .cart-items{flex:1;overflow-y:auto;padding:1.25rem;}
+  .cart-empty{text-align:center;color:var(--text-dim);padding:3rem 1rem;font-size:13px;letter-spacing:0.05em;}
+  .cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--bg-3);}
+  .cart-item-img{width:72px;height:90px;flex-shrink:0;background:var(--bg-2);object-fit:cover;display:block;border-radius:2px;}
+  .cart-item-img-ph{width:72px;height:90px;flex-shrink:0;background:var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--bronze-lo);border-radius:2px;}
+  .cart-item-info{flex:1;}
+  .cart-item-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px;}
+  .cart-item-cat{font-size:10px;color:var(--bronze-hi);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:6px;}
+  .cart-item-detail{font-size:12px;color:var(--text-mute);margin-bottom:3px;}
+  .cart-item-remove{background:none;border:none;color:#c0392b;font-size:10px;cursor:pointer;padding:0;font-family:'Lato',sans-serif;text-transform:uppercase;letter-spacing:0.15em;}
+  .cart-footer{padding:1.5rem;border-top:1px solid var(--bg-3);background:var(--bg-0);}
+  .cart-summary-label{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;}
+  .cart-count-big{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:14px;}
+  .whatsapp-btn{width:100%;background:#25D366;border:none;color:white;font-family:'Lato',sans-serif;font-size:13px;font-weight:900;letter-spacing:0.2em;text-transform:uppercase;padding:18px;cursor:pointer;border-radius:2px;transition:background .2s, transform .15s;}
+  .whatsapp-btn:hover{background:#1da352;transform:translateY(-1px);}
+  .cart-note-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-dim);display:block;margin:14px 0 8px;}
+  .cart-note-input{width:100%;background:var(--bg-1);border:1px solid var(--bg-3);color:var(--text);font-family:'Lato',sans-serif;font-size:13px;padding:12px;outline:none;resize:none;min-height:60px;border-radius:2px;}
+  .cart-note-input:focus{border-color:var(--bronze);}
+
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:5000;align-items:center;justify-content:center;padding:1rem;}
+  .modal-bg.open{display:flex;}
+  .modal{background:var(--bg-1);border:1px solid var(--bg-3);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:2.5rem;border-radius:3px;box-shadow:0 30px 80px rgba(0,0,0,0.6);}
+  .modal-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:500;color:var(--text);margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--bg-3);letter-spacing:-0.005em;}
+  .form-group{margin-bottom:1.25rem;}
+  .form-label{display:block;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+  .form-input,.form-select,.form-textarea{width:100%;background:var(--bg-0);border:1px solid var(--bg-3);color:var(--text);font-family:'Lato',sans-serif;font-size:14px;padding:11px 14px;outline:none;border-radius:2px;transition:border-color .2s;}
+  .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--bronze);}
+  .form-textarea{min-height:80px;resize:vertical;}
+  .modal-actions{display:flex;gap:12px;margin-top:1.75rem;}
+  .btn-primary{flex:1;background:var(--bronze);border:none;color:#0E0C0A;font-family:'Lato',sans-serif;font-size:11px;font-weight:900;letter-spacing:0.22em;text-transform:uppercase;padding:14px;cursor:pointer;border-radius:2px;transition:background .2s;}
+  .btn-primary:hover{background:var(--bronze-hi);}
+  .btn-secondary{background:none;border:1px solid var(--bg-3);color:var(--text-mute);font-family:'Lato',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:14px 22px;cursor:pointer;border-radius:2px;transition:border-color .2s, color .2s;}
+  .btn-secondary:hover{border-color:var(--bronze);color:var(--bronze-hi);}
+  .tags-input{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .tag-item{background:var(--bg-2);border:1px solid var(--bg-3);font-size:12px;color:var(--text);padding:5px 12px;display:flex;align-items:center;gap:8px;border-radius:2px;}
+  .tag-remove{cursor:pointer;color:var(--text-dim);font-size:14px;}
+  .cat-chip{background:var(--bg-2);border:1px solid var(--bg-3);padding:7px 14px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;border-radius:2px;}
+  .chip-del{cursor:pointer;color:var(--text-dim);}
+  .cat-manage-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+
+  /* ═══════════ IMAGE UPLOAD (Drag & Drop) ═══════════ */
+  .img-drop{
+    position:relative;
+    background:var(--bg-0);
+    border:2px dashed var(--bg-3);
+    border-radius:3px;
+    padding:1.5rem;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .2s, background .2s;
+    min-height:160px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .img-drop:hover{border-color:var(--bronze-lo);background:rgba(176,122,74,0.04);}
+  .img-drop.drag{border-color:var(--bronze);background:rgba(176,122,74,0.10);border-style:solid;}
+  .img-drop-empty{display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;}
+  .img-drop-icon{
+    width:48px;height:48px;border-radius:50%;
+    background:rgba(176,122,74,0.12);
+    border:1px solid var(--line);
+    color:var(--bronze-hi);
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;font-weight:700;
+    margin-bottom:4px;
+  }
+  .img-drop-text{font-size:13px;color:var(--text);font-weight:600;letter-spacing:0.04em;}
+  .img-drop-hint{font-size:10px;color:var(--text-dim);letter-spacing:0.18em;text-transform:uppercase;margin-top:4px;}
+  .img-drop-preview{position:relative;width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .img-drop-preview img{max-width:100%;max-height:240px;display:block;border-radius:2px;border:1px solid var(--bg-3);}
+  .img-drop-clear{
+    background:transparent;
+    border:1px solid rgba(220,80,80,0.5);
+    color:#e07070;
+    font-family:'Lato',sans-serif;
+    font-size:10px;font-weight:700;
+    letter-spacing:0.18em;text-transform:uppercase;
+    padding:7px 14px;cursor:pointer;border-radius:2px;
+    transition:background .2s;
+  }
+  .img-drop-clear:hover{background:rgba(220,80,80,0.12);}
+
+  footer{background:var(--bg-0);border-top:1px solid var(--line-soft);padding:3rem 2rem;text-align:center;position:relative;z-index:2;}
+  .footer-brand{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:8px;letter-spacing:0.04em;}
+  .footer-note{font-size:10px;color:var(--text-dim);letter-spacing:0.22em;text-transform:uppercase;}
+
+  .no-products{text-align:center;padding:5rem 2rem;color:var(--text-dim);grid-column:1/-1;font-style:italic;font-family:'Playfair Display',serif;font-size:18px;}
+
+  /* ═══════════ CATEGORY SLIDESHOW ═══════════ */
+  .cat-slideshow-section{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:4rem 2.5rem 1rem;}
+  .cat-slideshow-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:var(--text);margin-bottom:2rem;letter-spacing:-0.005em;}
+  .cat-slideshow{position:relative;overflow:hidden;border:1px solid var(--bg-3);background:var(--bg-1);border-radius:3px;}
+  .cat-slides{display:flex;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);}
+  .cat-slide{min-width:100%;aspect-ratio:16/9;position:relative;background:var(--bg-2);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;}
+  .cat-slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s ease;}
+  .cat-slide:hover img{transform:scale(1.04);}
+  .cat-slide-ph{display:flex;flex-direction:column;align-items:center;gap:14px;padding:2rem;text-align:center;}
+  .cat-slide-ph-icon{width:80px;height:80px;border:1px dashed var(--bronze-lo);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--bronze);border-radius:50%;}
+  .cat-slide-ph-name{font-family:'Playfair Display',serif;font-size:28px;color:var(--text);letter-spacing:0.04em;}
+  .cat-slide-ph-file{font-family:monospace;font-size:11px;color:var(--text-dim);background:var(--bg-0);padding:4px 10px;border-radius:2px;}
+  .cat-slide-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.35) 55%,transparent 100%);display:flex;align-items:flex-end;padding:2.5rem;pointer-events:none;}
+  .cat-slide-label{font-family:'Playfair Display',serif;font-size:36px;font-weight:500;color:var(--text);letter-spacing:0.02em;text-shadow:0 2px 12px rgba(0,0,0,0.6);}
+  .cat-slide-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(14,12,10,0.7);border:1px solid var(--line);color:var(--bronze-hi);width:48px;height:48px;font-size:22px;cursor:pointer;z-index:5;transition:background 0.2s, border-color .2s;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+  .cat-slide-arrow:hover{background:var(--bronze);color:#0E0C0A;border-color:var(--bronze);}
+  .cat-slide-arrow.prev{left:18px;}
+  .cat-slide-arrow.next{right:18px;}
+  .cat-slide-dots{display:flex;justify-content:center;gap:10px;margin-top:18px;}
+  .cat-slide-dot{width:8px;height:8px;border-radius:50%;background:var(--bg-3);border:none;cursor:pointer;transition:all 0.3s;}
+  .cat-slide-dot.active{background:var(--bronze);width:32px;border-radius:4px;}
+
+  /* Admin-Edit-Overlay auf jedem Slide */
+  .cat-slide-admin{
+    position:absolute;top:14px;right:14px;
+    display:none;z-index:8;
+    gap:8px;
+  }
+  .cat-slide.is-admin .cat-slide-admin{display:flex;}
+  .cat-slide-admin-btn{
+    background:rgba(14,12,10,0.85);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid var(--bronze);
+    color:var(--bronze-hi);
+    font-family:'Lato',sans-serif;
+    font-size:10px;font-weight:900;
+    letter-spacing:0.18em;text-transform:uppercase;
+    padding:9px 14px;cursor:pointer;
+    border-radius:2px;
+    transition:background .2s, color .2s, transform .15s;
+  }
+  .cat-slide-admin-btn:hover{
+    background:var(--bronze);color:#0E0C0A;
+    transform:translateY(-1px);
+  }
+  .cat-slide-admin-btn.danger{
+    border-color:rgba(220,80,80,0.55);
+    color:#e07070;
+  }
+  .cat-slide-admin-btn.danger:hover{
+    background:rgba(220,80,80,0.18);
+    color:#fff;
+  }
+
+  /* ═══════════ ICONIC BRANDS SLIDER ═══════════ */
+  .brands-section{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:4rem 2.5rem 1rem;}
+  .brands-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:var(--text);margin-bottom:0.5rem;letter-spacing:-0.005em;text-align:center;}
+  .brands-subtitle{font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:var(--bronze-hi);text-align:center;margin-bottom:2.5rem;}
+  .brands-marquee{position:relative;overflow:hidden;background:var(--bg-1);border-top:1px solid var(--bg-3);border-bottom:1px solid var(--bg-3);padding:2rem 0;border-radius:3px;}
+  .brands-marquee::before,.brands-marquee::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none;}
+  .brands-marquee::before{left:0;background:linear-gradient(to right,var(--bg-1),transparent);}
+  .brands-marquee::after{right:0;background:linear-gradient(to left,var(--bg-1),transparent);}
+  .brands-track{display:flex;gap:3.5rem;animation:scroll-brands 32s linear infinite;width:max-content;align-items:center;}
+  .brands-marquee:hover .brands-track{animation-play-state:paused;}
+  @keyframes scroll-brands{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  .brand-item{display:flex;align-items:center;justify-content:center;height:80px;min-width:140px;flex-shrink:0;}
+  .brand-item img{max-height:60px;max-width:140px;object-fit:contain;filter:grayscale(100%) brightness(0.85);transition:filter 0.4s,transform 0.4s;opacity:.7;}
+  .brand-item:hover img{filter:grayscale(0%) brightness(1);transform:scale(1.08);opacity:1;}
+  .brand-ph{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--text-dim);letter-spacing:0.08em;padding:14px 26px;border:1px dashed var(--bg-3);background:var(--bg-2);border-radius:2px;}
+
+  /* ═══════════ TRUST BAR (PLUG ROAD TRUST) ═══════════ */
+  .trust-section{position:relative;z-index:2;background:linear-gradient(180deg, var(--bg-0) 0%, #15110D 100%);padding:6rem 2rem;margin-top:4rem;border-top:1px solid var(--line-soft);overflow:hidden;}
+  .trust-section::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(800px 400px at 50% 0%, rgba(176,122,74,0.12), transparent 60%);
+    pointer-events:none;
+  }
+  .trust-inner{position:relative;z-index:2;max-width:1400px;margin:0 auto;}
+  .trust-header{text-align:center;margin-bottom:3.5rem;}
+  .trust-mainlogo{display:flex;justify-content:center;align-items:center;margin-bottom:1.25rem;}
+  .trust-mainlogo img{height:90px;width:auto;filter:drop-shadow(0 8px 24px rgba(176,122,74,0.3));}
+  .trust-title{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--text);letter-spacing:0.02em;}
+  .trust-title em{font-style:italic;color:var(--bronze-hi);}
+  .trust-subtitle{font-size:11px;letter-spacing:0.32em;color:var(--bronze-hi);text-transform:uppercase;margin-top:10px;}
+  .trust-compare{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem;}
+  .trust-col{background:rgba(22,19,16,0.6);backdrop-filter:blur(10px);border:1px solid var(--line);padding:2rem;border-radius:3px;}
+  .trust-col-header{display:flex;align-items:center;gap:12px;padding-bottom:1.25rem;border-bottom:1px solid var(--line);margin-bottom:1.25rem;}
+  .trust-col-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+  .trust-col.plug .trust-col-icon{background:var(--bronze);color:#0E0C0A;}
+  .trust-col.others .trust-col-icon{background:rgba(220,80,80,0.15);color:#e07070;border:1px solid #c54848;}
+  .trust-col-name{font-family:'Lato',sans-serif;font-size:12px;font-weight:900;letter-spacing:0.22em;text-transform:uppercase;}
+  .trust-col.plug .trust-col-name{color:var(--bronze-hi);}
+  .trust-col.others .trust-col-name{color:var(--text-dim);}
+  .trust-row{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:13px;}
+  .trust-check{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;}
+  .trust-row.yes .trust-check{background:rgba(125,216,125,0.15);color:#7dd87d;border:1px solid #4a9d4a;}
+  .trust-row.no .trust-check{background:rgba(220,80,80,0.12);color:#e07070;border:1px solid #a04040;}
+  .trust-row-text{color:var(--text-mute);}
+  .trust-col.others .trust-row-text{color:var(--text-dim);}
+  .trust-features{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem;}
+  .trust-feat{background:rgba(22,19,16,0.6);backdrop-filter:blur(10px);border:1px solid var(--line);padding:2rem 1rem;text-align:center;border-radius:3px;transition:transform .25s, border-color .25s;}
+  .trust-feat:hover{transform:translateY(-4px);border-color:var(--bronze-lo);}
+  .trust-feat-icon{font-size:30px;margin-bottom:12px;filter:hue-rotate(-10deg);}
+  .trust-feat-title{font-family:'Lato',sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--bronze-hi);font-weight:900;margin-bottom:6px;}
+  .trust-feat-text{font-size:12px;color:var(--text-mute);line-height:1.6;}
+
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:2rem;text-align:center;min-height:auto;}
+    .hero-left{padding:0;display:flex;flex-direction:column;align-items:center;}
+    .hero-eyebrow{justify-content:center;}
+    .hero-sub{margin-left:auto;margin-right:auto;}
+    .hero-right{height:380px;order:-1;}
+    .hero-logo-stage{width:280px;height:280px;}
+    .hero-logo-slot img{width:240px!important;}
+    .hero-annot.a1{top:5%;right:0%;}
+    .hero-annot.a2{bottom:8%;right:-2%;}
+    .hero-annot.a3{top:50%;left:-2%;}
+    .hero-annot .line{width:50px!important;}
+  }
+
+  @media(max-width:768px){
+    .header-inner{padding:0 1.25rem;gap:1rem;height:70px;}
+    .brand-name{font-size:18px;}
+    nav{display:none;}
+    .header-actions{gap:8px;}
+    .cart-btn{padding:10px 16px;font-size:10px;}
+    .logout-btn{padding:6px 10px;}
+    main{padding:3rem 1.25rem;}
+    .hero{padding:4rem 1.25rem 5rem;}
+    .hero-title{font-size:clamp(34px,9vw,52px);}
+    .product-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.25rem;}
+    #cart-sidebar{width:100%;right:-100%;}
+    .cat-slideshow-section,.brands-section{padding:3rem 1.25rem 0.5rem;}
+    .cat-slide{aspect-ratio:4/5;}
+    .cat-slide-label{font-size:24px;}
+    .cat-slide-overlay{padding:1.5rem;}
+    .cat-slide-arrow{width:40px;height:40px;font-size:18px;}
+    .trust-section{padding:4rem 1.25rem;}
+    .trust-title{font-size:28px;}
+    .trust-compare{grid-template-columns:1fr;gap:1rem;}
+    .trust-features{grid-template-columns:repeat(2,1fr);}
+    .cat-slideshow-title,.brands-title{font-size:24px;}
+    .section-title{font-size:26px;}
+    .hero-annot{font-size:9px;letter-spacing:0.14em;}
+    .hero-annot .line{width:32px!important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+
+    <div class="login-logo-slot"><img src="Logo.png" style="width:120px;display:block;margin:0 auto 1.5rem;filter:drop-shadow(0 8px 20px rgba(176,122,74,0.4))"></div>
+
+    <div class="login-brand">PLUG Road</div>
+    <div class="login-sub">Ihr exklusiver Katalog</div>
+    <div class="login-div"></div>
+    <label class="login-label">Zugangs-Code</label>
+    <input type="password" class="login-input" id="pw-input" placeholder="Passwort eingeben" autocomplete="off">
+    <button class="login-btn" onclick="doLogin()">Eintreten</button>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-hint">Kunden- & Admin-Zugang</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+
+  <div id="admin-bar">
+    <div class="admin-bar-inner">
+      <span class="admin-bar-label">Admin</span>
+      <button class="abar-btn" onclick="openAddProduct()">+ Artikel</button>
+      <button class="abar-btn" onclick="openCatManager()">Kategorien</button>
+      <button class="abar-btn" onclick="openPwChange()">Passwoerter</button>
+      <button class="abar-btn" onclick="openSettings()">WhatsApp-Nr</button>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-logo">
+
+
+        <div class="header-logo-slot"><img src="Logo.png" style="width:52px;height:52px;object-fit:contain"></div>
+
+        <div>
+          <div class="brand-name">PLUG</div>
+          <div class="brand-road">Road</div>
+        </div>
+      </div>
+      <nav id="main-nav"></nav>
+      <div class="header-actions">
+        <span id="admin-badge" class="admin-badge" style="display:none">Admin</span>
+        <button class="cart-btn" onclick="toggleCart()">
+          <span>Auswahl</span>
+          <span class="cart-count" id="cart-count-badge">0</span>
+        </button>
+        <button class="logout-btn" onclick="doLogout()">Abmelden</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Plug Road · Kollektion</div>
+        <h1 class="hero-title">Streetwear,<br>neu <em>definiert.</em></h1>
+        <p class="hero-sub">Handverlesene Stücke, geprüfte Qualität und stille Eleganz. Wählen Sie Ihre Favoriten und senden Sie Ihre Anfrage direkt — persönlich, schnell, diskret.</p>
+        <button class="hero-cta" onclick="document.querySelector('main').scrollIntoView({behavior:'smooth'})">Kollektion entdecken</button>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-logo-stage">
+          <div class="hero-logo-slot"><img src="Logo.png" alt="PLUG Road"></div>
+          <div class="hero-annot a1"><span class="dot"></span><span class="line"></span><span>Größte Auswahl</span></div>
+          <div class="hero-annot a2"><span class="dot"></span><span class="line"></span><span> 1:1 Qualität</span></div>
+          <div class="hero-annot a3"><span>Seit Tag 1</span><span class="line"></span><span class="dot"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ CATEGORY SLIDESHOW ═══════════ -->
+  <div class="cat-slideshow-section">
+    <h2 class="cat-slideshow-title">Unsere Kategorien</h2>
+    <div class="cat-slideshow">
+      <button class="cat-slide-arrow prev" onclick="catSlide(-1)">‹</button>
+      <button class="cat-slide-arrow next" onclick="catSlide(1)">›</button>
+      <div class="cat-slides" id="cat-slides"></div>
+    </div>
+    <div class="cat-slide-dots" id="cat-slide-dots"></div>
+  </div>
+
+  <!-- ═══════════ ICONIC BRANDS ═══════════ -->
+  <div class="brands-section">
+    <h2 class="brands-title">Iconic Brands</h2>
+    <div class="brands-subtitle">1:1 Qualität · Vertrauen seit Tag 1</div>
+    <div class="brands-marquee">
+      <div class="brands-track" id="brands-track">
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <!--  BRANDS HIER EINFÜGEN:                                      -->
+        <!--  Logos in den Ordner "brands/" legen (z.B. brands/nike.png) -->
+        <!--  Dann hier eintragen:                                       -->
+        <!--                                                             -->
+        <!--  <div class="brand-item"><img src="brands/nike.png"></div>  -->
+        <!--                                                             -->
+        <!--  Solange leer = Platzhalter werden angezeigt                -->
+        <!-- ══════════════════════════════════════════════════════════ -->
+
+        <div class="brand-item"><img src="brands/Gucci.png"></div>
+        <div class="brand-item"><img src="brands/prada.png"></div>
+        <div class="brand-item"><img src="brands/dior.png"></div>
+        <div class="brand-item"><img src="brands/balenciaga.png"></div>
+        <div class="brand-item"><img src="brands/lacoste.png"></div>
+        <div class="brand-item"><img src="brands/bureberry.png"></div>
+        <div class="brand-item"><img src="brands/LV.png"></div>
+        <div class="brand-item"><img src="brands/versace.png"></div>
+
+        <!-- Duplikate für nahtlose Schleife - GLEICHE Brands hier nochmal einfügen -->
+        <div class="brand-item"><img src="brands/Gucci.png"></div>
+        <div class="brand-item"><img src="brands/prada.png"></div>
+        <div class="brand-item"><img src="brands/dior.png"></div>
+        <div class="brand-item"><img src="brands/balenciaga.png"></div>
+        <div class="brand-item"><img src="brands/lacoste.png"></div>
+        <div class="brand-item"><img src="brands/bureberry.png"></div>
+        <div class="brand-item"><img src="brands/LV.png"></div>
+        <div class="brand-item"><img src="brands/versace.png"></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="cat-tabs" id="cat-tabs"></div>
+    <div id="products-container"></div>
+  </main>
+
+  <!-- ═══════════ PLUG ROAD TRUST ═══════════ -->
+  <div class="trust-section">
+    <div class="trust-inner">
+      <div class="trust-header">
+        <div class="trust-mainlogo">
+          <img src="Logo.png" alt="PLUG Road">
+        </div>
+        <h2 class="trust-title">PLUG <em>Road</em> Trust</h2>
+        <div class="trust-subtitle">Warum wir &middot; Qualität &middot; Vertrauen</div>
+      </div>
+
+      <div class="trust-compare">
+        <div class="trust-col plug">
+          <div class="trust-col-header">
+            <div class="trust-col-icon">P</div>
+            <div class="trust-col-name">PLUG Road</div>
+          </div>
+          <div class="trust-row yes"><span class="trust-check">✓</span><span class="trust-row-text">Geprüfte Qualität</span></div>
+          <div class="trust-row yes"><span class="trust-check">✓</span><span class="trust-row-text">Faire Preise</span></div>
+          <div class="trust-row yes"><span class="trust-check">✓</span><span class="trust-row-text">Persönliche Beratung</span></div>
+          <div class="trust-row yes"><span class="trust-check">✓</span><span class="trust-row-text">Direkter WhatsApp-Kontakt</span></div>
+          <div class="trust-row yes"><span class="trust-check">✓</span><span class="trust-row-text">Sichere Lieferung</span></div>
+          <div class="trust-row yes"><span class="trust-check">✓</span><span class="trust-row-text">Vielfältiges Sortiment</span></div>
+          <div class="trust-row yes"><span class="trust-check">✓</span><span class="trust-row-text">24/7 Erreichbarkeit</span></div>
+          <div class="trust-row yes"><span class="trust-check">✓</span><span class="trust-row-text">Treue Kundenbasis</span></div>
+        </div>
+
+        <div class="trust-col others">
+          <div class="trust-col-header">
+            <div class="trust-col-icon">!</div>
+            <div class="trust-col-name">Andere Anbieter</div>
+          </div>
+          <div class="trust-row no"><span class="trust-check">✕</span><span class="trust-row-text">Wechselhafte Qualität</span></div>
+          <div class="trust-row no"><span class="trust-check">✕</span><span class="trust-row-text">Überteuerte Preise</span></div>
+          <div class="trust-row no"><span class="trust-check">✕</span><span class="trust-row-text">Standard-Antworten</span></div>
+          <div class="trust-row no"><span class="trust-check">✕</span><span class="trust-row-text">Bot-Support</span></div>
+          <div class="trust-row no"><span class="trust-check">✕</span><span class="trust-row-text">Unsichere Versandwege</span></div>
+          <div class="trust-row no"><span class="trust-check">✕</span><span class="trust-row-text">Begrenzte Auswahl</span></div>
+          <div class="trust-row no"><span class="trust-check">✕</span><span class="trust-row-text">Lange Wartezeiten</span></div>
+          <div class="trust-row no"><span class="trust-check">✕</span><span class="trust-row-text">Wenig Vertrauen</span></div>
+        </div>
+      </div>
+
+      <div class="trust-features">
+        <div class="trust-feat">
+          <div class="trust-feat-icon">🚀</div>
+          <div class="trust-feat-title">Schnell</div>
+          <div class="trust-feat-text">Schnelle Antwort &amp; Lieferung</div>
+        </div>
+        <div class="trust-feat">
+          <div class="trust-feat-icon">🛡</div>
+          <div class="trust-feat-title">Sicher</div>
+          <div class="trust-feat-text">100% sicher &amp; diskret</div>
+        </div>
+        <div class="trust-feat">
+          <div class="trust-feat-icon">💎</div>
+          <div class="trust-feat-title">Premium</div>
+          <div class="trust-feat-text">Geprüfte Top-Qualität</div>
+        </div>
+        <div class="trust-feat">
+          <div class="trust-feat-icon">💬</div>
+          <div class="trust-feat-title">Service</div>
+          <div class="trust-feat-text">Persönlich via WhatsApp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+
+
+    <div class="footer-logo-slot"><img src="Logo.png" style="width:90px;display:block;margin:0 auto 14px;filter:drop-shadow(0 4px 12px rgba(176,122,74,0.3))"></div>
+
+    <div class="footer-brand">PLUG Road</div>
+    <div class="footer-note">Anfragen nur über WhatsApp - Kein Onlineverkauf</div>
+  </footer>
+</div>
+
+<!-- CART -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<div id="cart-sidebar">
+  <div class="cart-header">
+    <div class="cart-header-title">Ihre Auswahl</div>
+    <button class="cart-close" onclick="toggleCart()">x</button>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer">
+    <div class="cart-summary-label">Ausgewaehlte Artikel</div>
+    <div class="cart-count-big" id="cart-summary-text">0 Artikel</div>
+    <label class="cart-note-label">Ihre Nachricht (optional)</label>
+    <textarea class="cart-note-input" id="cart-note" placeholder="z.B. Groesse, Farbe, Fragen..."></textarea>
+    <button class="whatsapp-btn" onclick="sendToWhatsApp()" style="margin-top:12px">Anfrage via WhatsApp</button>
+  </div>
+</div>
+
+<!-- MODAL PRODUKT -->
+<div class="modal-bg" id="product-modal">
+  <div class="modal">
+    <div class="modal-title" id="product-modal-title">Artikel hinzufuegen</div>
+    <div class="form-group"><label class="form-label">Kategorie</label><select class="form-select" id="pm-cat"></select></div>
+    <div class="form-group"><label class="form-label">Artikelname</label><input class="form-input" id="pm-name"></div>
+    <div class="form-group"><label class="form-label">Beschreibung</label><textarea class="form-textarea" id="pm-desc"></textarea></div>
+    <div class="form-group">
+      <label class="form-label">Bild</label>
+      <div class="img-drop" id="pm-img-drop"
+           onclick="document.getElementById('pm-img-file').click()"
+           ondragover="event.preventDefault();this.classList.add('drag');"
+           ondragleave="this.classList.remove('drag');"
+           ondrop="handleImgDrop(event)">
+        <div class="img-drop-empty" id="pm-img-empty">
+          <div class="img-drop-icon">⬆</div>
+          <div class="img-drop-text">Bild hierher ziehen oder klicken</div>
+          <div class="img-drop-hint">JPG, PNG, WEBP &middot; auch per Strg+V einfügen</div>
+        </div>
+        <div class="img-drop-preview" id="pm-img-preview" style="display:none">
+          <img id="pm-img-preview-img" alt="">
+          <button type="button" class="img-drop-clear" onclick="event.stopPropagation();clearProductImg()">Bild entfernen</button>
+        </div>
+        <input type="file" id="pm-img-file" accept="image/*" style="display:none" onchange="handleImgFile(this.files[0])">
+        <input type="hidden" id="pm-img">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Groessen (Enter bestaetigt)</label>
+      <div class="tags-input" id="pm-sizes-container"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Farben (Enter bestaetigt)</label>
+      <div class="tags-input" id="pm-colors-container"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('product-modal')">Abbrechen</button>
+      <button class="btn-primary" onclick="saveProduct()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL KATEGORIEN -->
+<div class="modal-bg" id="cat-modal">
+  <div class="modal">
+    <div class="modal-title">Kategorien verwalten</div>
+    <div class="form-group">
+      <label class="form-label">Neue Kategorie</label>
+      <div style="display:flex;gap:10px">
+        <input class="form-input" id="new-cat-input" style="flex:1">
+        <button class="btn-primary" style="padding:10px 18px;font-size:12px" onclick="addCategory()">+</button>
+      </div>
+    </div>
+    <div class="cat-manage-list" id="cat-manage-list"></div>
+    <div class="modal-actions" style="margin-top:1.5rem"><button class="btn-secondary" onclick="closeModal('cat-modal')">Schliessen</button></div>
+  </div>
+</div>
+
+<!-- MODAL SLIDE-VORSCHAUBILD (eigene Upload-Zone fuer "Unsere Kategorien") -->
+<div class="modal-bg" id="slide-img-modal">
+  <div class="modal">
+    <div class="modal-title" id="slide-img-modal-title">Vorschaubild bearbeiten</div>
+    <div style="font-size:12px;color:var(--text-mute);margin-bottom:1rem;line-height:1.55">
+      Hier laedst du das grosse Vorschaubild fuer die "Unsere Kategorien"-Slideshow hoch. Das wirkt sich nicht auf die Produktkarten aus, sondern nur auf den grossen Slider oben.
+    </div>
+    <div class="form-group">
+      <label class="form-label" id="slide-img-cat-label">Kategorie</label>
+      <div class="img-drop" id="sm-img-drop"
+           onclick="document.getElementById('sm-img-file').click()"
+           ondragover="event.preventDefault();this.classList.add('drag');"
+           ondragleave="this.classList.remove('drag');"
+           ondrop="handleSlideImgDrop(event)">
+        <div class="img-drop-empty" id="sm-img-empty">
+          <div class="img-drop-icon">⬆</div>
+          <div class="img-drop-text">Bild hierher ziehen oder klicken</div>
+          <div class="img-drop-hint">JPG, PNG, WEBP &middot; auch per Strg+V einfuegen</div>
+        </div>
+        <div class="img-drop-preview" id="sm-img-preview" style="display:none">
+          <img id="sm-img-preview-img" alt="">
+          <button type="button" class="img-drop-clear" onclick="event.stopPropagation();clearSlideImgPreview()">Bild entfernen</button>
+        </div>
+        <input type="file" id="sm-img-file" accept="image/*" style="display:none" onchange="handleSlideImgFile(this.files[0])">
+        <input type="hidden" id="sm-img-data">
+        <input type="hidden" id="sm-img-cat">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('slide-img-modal')">Abbrechen</button>
+      <button class="btn-primary" onclick="saveSlideImg()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PASSWORT -->
+<div class="modal-bg" id="pw-modal">
+  <div class="modal">
+    <div class="modal-title">Passwoerter aendern</div>
+    <div class="form-group"><label class="form-label">Kunden-Passwort</label><input type="password" class="form-input" id="new-pw-customer"></div>
+    <div class="form-group"><label class="form-label">Admin-Passwort</label><input type="password" class="form-input" id="new-pw-admin"></div>
+    <div style="font-size:12px;color:var(--p4);margin-bottom:12px">Leer lassen = unveraendert</div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('pw-modal')">Abbrechen</button>
+      <button class="btn-primary" onclick="savePw()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SETTINGS -->
+<div class="modal-bg" id="settings-modal">
+  <div class="modal">
+    <div class="modal-title">WhatsApp-Nummer</div>
+    <div class="form-group">
+      <label class="form-label">Nummer mit Laendervorwahl (ohne +)</label>
+      <input class="form-input" id="set-wa-num" placeholder="z.B. 4915100000000">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('settings-modal')">Abbrechen</button>
+      <button class="btn-primary" onclick="saveSettings()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================================================================
+   PRODUKTLISTE - HIER BILDER EINTRAGEN
+   ===================================================================
+   Trage bei "img" den Pfad zu deinem Bild ein, z.B.:
+   img: 'bilder/slim-fit-chino.jpg'
+   Bleibt img: null, wird ein Platzhalter mit Dateinamen-Vorschlag angezeigt.
+   =================================================================== */
+
+var state = {
+  passwordCustomer: 'kunde123',
+  passwordAdmin:    'admin999',
+  whatsappNumber:   '4915100000000',
+  isAdmin: false,
+  isLoggedIn: false,
+  categories: ['Hosen','Hemden','T-Shirts','Jacken','Accessoires'],
+  products: [
+    { id:1, name:'Slim Fit Chino',      category:'Hosen',    desc:'Moderner Schnitt, leichtes Baumwollgewebe.', sizes:['S','M','L','XL','XXL'], colors:['Beige','Schwarz','Navy'],  img: null },
+    { id:2, name:'Linen Shirt Premium', category:'Hemden',   desc:'100% Leinen, luftig und angenehm.',          sizes:['S','M','L','XL'],       colors:['Weiss','Hellblau','Sand'], img: null },
+    { id:3, name:'Oversized Tee',       category:'T-Shirts', desc:'Weicher Jersey-Stoff, entspannter Fit.',     sizes:['S','M','L','XL','2XL'], colors:['Schwarz','Weiss','Grau'],  img: null },
+    { id:4, name:'Cargo Hose Relaxed',  category:'Hosen',    desc:'Viele Taschen, robustes Material.',          sizes:['S','M','L','XL'],       colors:['Khaki','Schwarz','Olive'], img: null },
+    { id:5, name:'Bomber Jacke',        category:'Jacken',   desc:'Klassische Silhouette mit modernem Touch.',  sizes:['S','M','L','XL'],       colors:['Schwarz','Olive'],         img: null },
+    { id:6, name:'Polo Shirt',          category:'T-Shirts', desc:'Strukturiertes Pique-Gewebe, elegant.',      sizes:['S','M','L','XL','XXL'], colors:['Navy','Weiss','Bordeaux'], img: null },
+    { id:7, name:'Jogger Pants',        category:'Hosen',    desc:'Weiche Fleece-Qualitaet, maximaler Komfort.',sizes:['S','M','L','XL'],       colors:['Grau','Schwarz'],          img: null },
+    { id:8, name:'Oxford Hemd',         category:'Hemden',   desc:'Klassisches Oxford-Gewebe, zeitlos elegant.',sizes:['S','M','L','XL','XXL'], colors:['Weiss','Hellblau'],        img: null }
+  ],
+  cart: [],
+  selections: {},
+  categoryImages: {},
+  nextId: 100,
+  activeCategory: 'Alle',
+  editingId: null,
+  editSizes: [],
+  editColors: []
+};
+
+function init() {
+  var saved = localStorage.getItem('plugroadState');
+  if (saved) {
+    try {
+      var p = JSON.parse(saved);
+      if (p.passwordCustomer) state.passwordCustomer = p.passwordCustomer;
+      if (p.passwordAdmin)    state.passwordAdmin    = p.passwordAdmin;
+      if (p.whatsappNumber)   state.whatsappNumber   = p.whatsappNumber;
+      if (p.categories)       state.categories       = p.categories;
+      if (p.products)         state.products         = p.products;
+      if (p.nextId)           state.nextId           = p.nextId;
+      if (p.cart)             state.cart             = p.cart;
+      if (p.selections)       state.selections       = p.selections;
+      if (p.categoryImages)   state.categoryImages   = p.categoryImages;
+    } catch(e) {}
+  }
+}
+
+function save() {
+  localStorage.setItem('plugroadState', JSON.stringify({
+    passwordCustomer: state.passwordCustomer,
+    passwordAdmin:    state.passwordAdmin,
+    whatsappNumber:   state.whatsappNumber,
+    categories:       state.categories,
+    products:         state.products,
+    nextId:           state.nextId,
+    cart:             state.cart,
+    selections:       state.selections,
+    categoryImages:   state.categoryImages
+  }));
+}
+
+function doLogin() {
+  var v   = document.getElementById('pw-input').value;
+  var err = document.getElementById('login-error');
+  if (v === state.passwordAdmin) {
+    state.isAdmin = true;
+    state.isLoggedIn = true;
+    showApp();
+  } else if (v === state.passwordCustomer) {
+    state.isAdmin = false;
+    state.isLoggedIn = true;
+    showApp();
+  } else {
+    err.textContent = 'Falsches Passwort.';
+    document.getElementById('pw-input').value = '';
+  }
+}
+
+function doLogout() {
+  state.isLoggedIn = false;
+  state.isAdmin = false;
+  state.cart = [];
+  if (catSlideTimer) { clearInterval(catSlideTimer); catSlideTimer = null; }
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pw-input').value = '';
+  document.getElementById('login-error').textContent = '';
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('admin-bar').style.display = state.isAdmin ? 'block' : 'none';
+  document.getElementById('admin-badge').style.display = state.isAdmin ? 'inline' : 'none';
+  renderNav();
+  renderCatTabs();
+  renderProducts();
+  renderCatSlideshow();
+  startCatSlideshow();
+}
+
+// ═══════════ CATEGORY SLIDESHOW ═══════════
+var catSlideIndex = 0;
+var catSlideTimer = null;
+
+function renderCatSlideshow() {
+  var slides = document.getElementById('cat-slides');
+  var dots   = document.getElementById('cat-slide-dots');
+  if (!slides || !dots) return;
+
+  var html = '';
+  var dotsHtml = '';
+  for (var i = 0; i < state.categories.length; i++) {
+    var cat = state.categories[i];
+    var slug = cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    // 1. Custom-Bild bevorzugen (per Admin-Upload), 2. Fallback auf Pfad-Konvention
+    var custom  = state.categoryImages && state.categoryImages[cat];
+    var imgSrc  = custom || ('kategorien/' + slug + '.jpg');
+    var catSafe = cat.replace(/'/g,"\\'");
+
+    var adminBtns = '';
+    if (state.isAdmin) {
+      adminBtns = '<div class="cat-slide-admin">' +
+        '<button class="cat-slide-admin-btn" onclick="event.stopPropagation();openSlideImg(\'' + catSafe + '\')">' +
+          (custom ? 'Bild aendern' : '+ Bild hinzufuegen') +
+        '</button>' +
+        (custom ? '<button class="cat-slide-admin-btn danger" onclick="event.stopPropagation();removeSlideImg(\'' + catSafe + '\')">Entfernen</button>' : '') +
+      '</div>';
+    }
+
+    html += '<div class="cat-slide ' + (state.isAdmin ? 'is-admin' : '') + '" onclick="setCategory(\'' + catSafe + '\');document.getElementById(\'products-container\').scrollIntoView({behavior:\'smooth\'})">' +
+              adminBtns +
+              '<img src="' + imgSrc + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+              '<div class="cat-slide-ph" style="display:none">' +
+                '<div class="cat-slide-ph-icon">📸</div>' +
+                '<div class="cat-slide-ph-name">' + cat + '</div>' +
+                '<div class="cat-slide-ph-file">' + (custom ? '(Eigenes Bild)' : 'kategorien/' + slug + '.jpg') + '</div>' +
+              '</div>' +
+              '<div class="cat-slide-overlay"><div class="cat-slide-label">' + cat + '</div></div>' +
+            '</div>';
+    dotsHtml += '<button class="cat-slide-dot ' + (i === 0 ? 'active' : '') + '" onclick="catGoTo(' + i + ')"></button>';
+  }
+  slides.innerHTML = html;
+  dots.innerHTML = dotsHtml;
+  catSlideIndex = 0;
+  updateCatSlidePos();
+}
+
+function updateCatSlidePos() {
+  var slides = document.getElementById('cat-slides');
+  if (!slides) return;
+  slides.style.transform = 'translateX(-' + (catSlideIndex * 100) + '%)';
+  var dots = document.querySelectorAll('.cat-slide-dot');
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].classList.toggle('active', i === catSlideIndex);
+  }
+}
+
+function catSlide(dir) {
+  var total = state.categories.length;
+  if (!total) return;
+  catSlideIndex = (catSlideIndex + dir + total) % total;
+  updateCatSlidePos();
+  resetCatTimer();
+}
+
+function catGoTo(idx) {
+  catSlideIndex = idx;
+  updateCatSlidePos();
+  resetCatTimer();
+}
+
+function startCatSlideshow() {
+  if (catSlideTimer) clearInterval(catSlideTimer);
+  catSlideTimer = setInterval(function() {
+    var total = state.categories.length;
+    if (!total) return;
+    catSlideIndex = (catSlideIndex + 1) % total;
+    updateCatSlidePos();
+  }, 4500);
+}
+
+function resetCatTimer() {
+  if (catSlideTimer) clearInterval(catSlideTimer);
+  startCatSlideshow();
+}
+
+function setCategory(cat) {
+  state.activeCategory = cat;
+  renderNav();
+  renderCatTabs();
+  renderProducts();
+}
+
+function renderNav() {
+  var all = ['Alle'].concat(state.categories);
+  var html = '';
+  for (var i = 0; i < all.length; i++) {
+    var c = all[i];
+    var safe = c.replace(/'/g, "\\'");
+    html += '<button class="nav-btn ' + (state.activeCategory === c ? 'active' : '') + '" onclick="setCategory(\'' + safe + '\')">' + c + '</button>';
+  }
+  document.getElementById('main-nav').innerHTML = html;
+}
+
+function renderCatTabs() {
+  var all = ['Alle'].concat(state.categories);
+  var html = '';
+  for (var i = 0; i < all.length; i++) {
+    var c = all[i];
+    var safe = c.replace(/'/g, "\\'");
+    html += '<button class="cat-tab ' + (state.activeCategory === c ? 'active' : '') + '" onclick="setCategory(\'' + safe + '\')">' + c + '</button>';
+  }
+  document.getElementById('cat-tabs').innerHTML = html;
+}
+
+function renderProducts() {
+  var container = document.getElementById('products-container');
+  var cats = state.activeCategory === 'Alle' ? state.categories : [state.activeCategory];
+  var html = '';
+  for (var i = 0; i < cats.length; i++) {
+    var cat = cats[i];
+    var prods = [];
+    for (var j = 0; j < state.products.length; j++) {
+      if (state.products[j].category === cat) prods.push(state.products[j]);
+    }
+    if (state.activeCategory !== 'Alle' && prods.length === 0) continue;
+    if (state.activeCategory === 'Alle') {
+      html += '<div class="section-header"><h2 class="section-title">' + cat + '</h2><span class="section-count">' + prods.length + ' Artikel</span></div>';
+    }
+    html += '<div class="product-grid">';
+    if (prods.length === 0 && state.isAdmin) {
+      html += '<div class="no-products">Noch keine Artikel.</div>';
+    } else {
+      for (var k = 0; k < prods.length; k++) {
+        html += renderCard(prods[k]);
+      }
+    }
+    html += '</div>';
+    if (state.activeCategory === 'Alle') html += '<div style="margin-bottom:1rem"></div>';
+  }
+  if (!html) html = '<div style="text-align:center;padding:4rem;color:var(--p4)">Keine Artikel.</div>';
+  container.innerHTML = html;
+  if (state.isAdmin) {
+    var els = document.querySelectorAll('.admin-overlay');
+    for (var m = 0; m < els.length; m++) els[m].style.display = 'flex';
+  }
+}
+
+function makeSlug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+}
+
+function renderCard(p) {
+  var inCart = false;
+  for (var i = 0; i < state.cart.length; i++) if (state.cart[i].id === p.id) { inCart = true; break; }
+
+  var slug = makeSlug(p.name);
+  var imgHTML;
+  if (p.img) {
+    imgHTML = '<img src="' + p.img + '" alt="' + p.name + '">';
+  } else {
+    imgHTML = '<div class="img-ph"><div class="img-ph-icon">[Bild]</div><div class="img-ph-name">Empfohlener Dateiname:<br><span class="img-ph-filename">bilder/' + slug + '.jpg</span></div></div>';
+  }
+
+  // Vorab gewaehlte Optionen (z.B. wenn schon im Warenkorb oder vorher angeklickt)
+  if (!state.selections[p.id]) state.selections[p.id] = { size: null, color: null };
+  // Auto-Select wenn nur eine Option vorhanden
+  if (p.sizes.length === 1)  state.selections[p.id].size  = p.sizes[0];
+  if (p.colors.length === 1) state.selections[p.id].color = p.colors[0];
+  var sel = state.selections[p.id];
+
+  var sizesHTML = '';
+  if (p.sizes.length) {
+    sizesHTML += '<div class="picker-label">Groesse' + (p.sizes.length > 1 ? ' <span class="req">·</span> bitte waehlen' : '') + '</div>';
+    sizesHTML += '<div class="picker-row">';
+    for (var s = 0; s < p.sizes.length; s++) {
+      var sv = p.sizes[s].replace(/'/g, "\\'");
+      var act = sel.size === p.sizes[s] ? ' active' : '';
+      sizesHTML += '<button type="button" class="picker-opt' + act + '" onclick="pickOption(' + p.id + ',\'size\',\'' + sv + '\')">' + p.sizes[s] + '</button>';
+    }
+    sizesHTML += '</div>';
+  }
+
+  var colorsHTML = '';
+  if (p.colors.length) {
+    colorsHTML += '<div class="picker-label">Farbe' + (p.colors.length > 1 ? ' <span class="req">·</span> bitte waehlen' : '') + '</div>';
+    colorsHTML += '<div class="picker-row">';
+    for (var c = 0; c < p.colors.length; c++) {
+      var cv = p.colors[c].replace(/'/g, "\\'");
+      var actc = sel.color === p.colors[c] ? ' active' : '';
+      colorsHTML += '<button type="button" class="picker-opt' + actc + '" onclick="pickOption(' + p.id + ',\'color\',\'' + cv + '\')">' + p.colors[c] + '</button>';
+    }
+    colorsHTML += '</div>';
+  }
+
+  return '<div class="product-card" id="card-' + p.id + '">' +
+    '<div class="product-img">' + imgHTML +
+      '<div class="admin-overlay" style="display:' + (state.isAdmin ? 'flex' : 'none') + '">' +
+        '<button class="admin-edit-btn" onclick="event.stopPropagation();openEditProduct(' + p.id + ')">Bearbeiten</button>' +
+        '<button class="admin-del-btn" onclick="event.stopPropagation();deleteProduct(' + p.id + ')">Loeschen</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="product-info">' +
+      '<div class="product-cat-tag">' + p.category + '</div>' +
+      '<div class="product-name">' + p.name + '</div>' +
+      '<div class="product-desc">' + p.desc + '</div>' +
+      sizesHTML + colorsHTML +
+      '<div class="picker-hint" id="hint-' + p.id + '">Bitte zuerst eine Auswahl treffen.</div>' +
+    '</div>' +
+    '<button class="add-to-cart ' + (inCart ? 'added' : '') + '" id="atc-' + p.id + '" onclick="toggleCartProduct(' + p.id + ')">' +
+      (inCart ? 'Ausgewaehlt' : '+ Zur Auswahl') +
+    '</button>' +
+  '</div>';
+}
+
+function pickOption(productId, type, value) {
+  if (!state.selections[productId]) state.selections[productId] = { size: null, color: null };
+  state.selections[productId][type] = value;
+  // Hint ausblenden
+  var hint = document.getElementById('hint-' + productId);
+  if (hint) hint.classList.remove('show');
+  // Falls Produkt bereits im Warenkorb: dort auch aktualisieren
+  for (var i = 0; i < state.cart.length; i++) {
+    if (state.cart[i].id === productId) {
+      if (type === 'size')  state.cart[i].selectedSize  = value;
+      if (type === 'color') state.cart[i].selectedColor = value;
+      save();
+      renderCartItems();
+      break;
+    }
+  }
+  // Nur die betroffene Card neu zeichnen (Picker-Buttons aktualisieren)
+  redrawCardPickers(productId);
+}
+
+function redrawCardPickers(productId) {
+  var card = document.getElementById('card-' + productId);
+  if (!card) return;
+  var sel = state.selections[productId];
+  if (!sel) return;
+  var buttons = card.querySelectorAll('.picker-opt');
+  for (var i = 0; i < buttons.length; i++) {
+    var b = buttons[i];
+    var val = b.textContent;
+    var row = b.parentNode;
+    // Welche Reihe? Erste = Groesse, zweite = Farbe — anhand Position im DOM
+    var labels = card.querySelectorAll('.picker-label');
+    var isSize = false;
+    for (var j = 0; j < labels.length; j++) {
+      if (labels[j].nextElementSibling === row) {
+        isSize = labels[j].textContent.toLowerCase().indexOf('groesse') === 0;
+        break;
+      }
+    }
+    var current = isSize ? sel.size : sel.color;
+    b.classList.toggle('active', current === val);
+  }
+}
+
+function toggleCartProduct(id) {
+  var idx = -1;
+  for (var i = 0; i < state.cart.length; i++) if (state.cart[i].id === id) { idx = i; break; }
+  if (idx > -1) {
+    // Entfernen
+    state.cart.splice(idx, 1);
+  } else {
+    // Hinzufuegen — vorher pruefen, ob Auswahl noetig und getroffen wurde
+    var prod = null;
+    for (var j = 0; j < state.products.length; j++) if (state.products[j].id === id) { prod = state.products[j]; break; }
+    if (!prod) return;
+    if (!state.selections[id]) state.selections[id] = { size: null, color: null };
+    var sel = state.selections[id];
+    var needsSize  = prod.sizes.length  > 1 && !sel.size;
+    var needsColor = prod.colors.length > 1 && !sel.color;
+    if (needsSize || needsColor) {
+      var hint = document.getElementById('hint-' + id);
+      if (hint) {
+        var msg = 'Bitte zuerst ' + (needsSize ? 'eine Groesse' : '') + (needsSize && needsColor ? ' und ' : '') + (needsColor ? 'eine Farbe' : '') + ' waehlen.';
+        hint.textContent = msg;
+        hint.classList.add('show');
+      }
+      return;
+    }
+    state.cart.push({
+      id: prod.id, name: prod.name, category: prod.category, img: prod.img,
+      sizes: prod.sizes, colors: prod.colors,
+      selectedSize:  sel.size  || (prod.sizes.length  === 1 ? prod.sizes[0]  : null),
+      selectedColor: sel.color || (prod.colors.length === 1 ? prod.colors[0] : null)
+    });
+  }
+  save();
+  updateCartBadge();
+  var btn = document.getElementById('atc-' + id);
+  if (btn) {
+    var inCart = false;
+    for (var k = 0; k < state.cart.length; k++) if (state.cart[k].id === id) { inCart = true; break; }
+    btn.className = 'add-to-cart ' + (inCart ? 'added' : '');
+    btn.textContent = inCart ? 'Ausgewaehlt' : '+ Zur Auswahl';
+  }
+  renderCartItems();
+}
+
+function updateCartBadge() {
+  document.getElementById('cart-count-badge').textContent = state.cart.length;
+}
+
+function toggleCart() {
+  var s = document.getElementById('cart-sidebar');
+  var o = document.getElementById('cart-overlay');
+  var open = s.classList.toggle('open');
+  o.classList.toggle('open', open);
+  if (open) renderCartItems();
+}
+
+function renderCartItems() {
+  var list = document.getElementById('cart-items-list');
+  document.getElementById('cart-summary-text').textContent = state.cart.length + ' Artikel';
+  if (!state.cart.length) {
+    list.innerHTML = '<div class="cart-empty"><div>Noch nichts ausgewaehlt.</div></div>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < state.cart.length; i++) {
+    var item = state.cart[i];
+    var imgEl = item.img
+      ? '<img class="cart-item-img" src="' + item.img + '" alt="' + item.name + '">'
+      : '<div class="cart-item-img-ph">[Bild]</div>';
+
+    // Groesse: Picker wenn mehrere verfuegbar, sonst nur Text
+    var sizesBlock = '';
+    if (item.sizes && item.sizes.length > 1) {
+      sizesBlock += '<div class="picker-label">Groesse</div><div class="picker-row">';
+      for (var s = 0; s < item.sizes.length; s++) {
+        var sv = item.sizes[s].replace(/'/g, "\\'");
+        var act = item.selectedSize === item.sizes[s] ? ' active' : '';
+        sizesBlock += '<button type="button" class="picker-opt' + act + '" onclick="setCartItemOption(' + item.id + ',\'size\',\'' + sv + '\')">' + item.sizes[s] + '</button>';
+      }
+      sizesBlock += '</div>';
+    } else if (item.selectedSize) {
+      sizesBlock = '<div class="cart-item-detail">Groesse: ' + item.selectedSize + '</div>';
+    }
+
+    var colorsBlock = '';
+    if (item.colors && item.colors.length > 1) {
+      colorsBlock += '<div class="picker-label">Farbe</div><div class="picker-row">';
+      for (var c = 0; c < item.colors.length; c++) {
+        var cv = item.colors[c].replace(/'/g, "\\'");
+        var actc = item.selectedColor === item.colors[c] ? ' active' : '';
+        colorsBlock += '<button type="button" class="picker-opt' + actc + '" onclick="setCartItemOption(' + item.id + ',\'color\',\'' + cv + '\')">' + item.colors[c] + '</button>';
+      }
+      colorsBlock += '</div>';
+    } else if (item.selectedColor) {
+      colorsBlock = '<div class="cart-item-detail">Farbe: ' + item.selectedColor + '</div>';
+    }
+
+    html += '<div class="cart-item">' + imgEl +
+      '<div class="cart-item-info">' +
+        '<div class="cart-item-name">' + item.name + '</div>' +
+        '<div class="cart-item-cat">' + item.category + '</div>' +
+        sizesBlock + colorsBlock +
+        '<button class="cart-item-remove" onclick="toggleCartProduct(' + item.id + ')">Entfernen</button>' +
+      '</div>' +
+    '</div>';
+  }
+  list.innerHTML = html;
+}
+
+function setCartItemOption(productId, type, value) {
+  for (var i = 0; i < state.cart.length; i++) {
+    if (state.cart[i].id === productId) {
+      if (type === 'size')  state.cart[i].selectedSize  = value;
+      if (type === 'color') state.cart[i].selectedColor = value;
+      break;
+    }
+  }
+  // selections-Tracking ebenfalls aktualisieren, damit die Karte konsistent bleibt
+  if (!state.selections[productId]) state.selections[productId] = { size: null, color: null };
+  state.selections[productId][type] = value;
+  save();
+  renderCartItems();
+  redrawCardPickers(productId);
+}
+
+function sendToWhatsApp() {
+  if (!state.cart.length) { alert('Bitte zuerst Artikel auswaehlen.'); return; }
+  // Vor dem Versand pruefen, dass alle Items eine Auswahl haben
+  var missing = [];
+  for (var i = 0; i < state.cart.length; i++) {
+    var it = state.cart[i];
+    if (it.sizes && it.sizes.length > 1 && !it.selectedSize)   missing.push(it.name + ' (Groesse)');
+    if (it.colors && it.colors.length > 1 && !it.selectedColor) missing.push(it.name + ' (Farbe)');
+  }
+  if (missing.length) {
+    alert('Bitte noch auswaehlen:\n\n- ' + missing.join('\n- '));
+    return;
+  }
+
+  var note = document.getElementById('cart-note').value;
+  var msg = 'Anfrage - PLUG Road Katalog\n\n';
+  for (var j = 0; j < state.cart.length; j++) {
+    var item = state.cart[j];
+    msg += (j + 1) + '. ' + item.name + ' (' + item.category + ')\n';
+    if (item.selectedSize)  msg += '   Groesse: ' + item.selectedSize + '\n';
+    if (item.selectedColor) msg += '   Farbe: '   + item.selectedColor + '\n';
+    msg += '\n';
+  }
+  if (note) msg += 'Nachricht: ' + note + '\n';
+  window.open('https://wa.me/' + state.whatsappNumber + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function openAddProduct() {
+  state.editingId = null;
+  state.editSizes = [];
+  state.editColors = [];
+  document.getElementById('product-modal-title').textContent = 'Artikel hinzufuegen';
+  document.getElementById('pm-name').value = '';
+  document.getElementById('pm-desc').value = '';
+  document.getElementById('pm-img').value = '';
+  setProductImgPreview(null);
+  populateCatSelect();
+  renderTagInputs();
+  document.getElementById('product-modal').classList.add('open');
+}
+
+function openEditProduct(id) {
+  var p = null;
+  for (var i = 0; i < state.products.length; i++) if (state.products[i].id === id) { p = state.products[i]; break; }
+  if (!p) return;
+  state.editingId = id;
+  state.editSizes  = p.sizes.slice();
+  state.editColors = p.colors.slice();
+  document.getElementById('product-modal-title').textContent = 'Artikel bearbeiten';
+  document.getElementById('pm-name').value = p.name;
+  document.getElementById('pm-desc').value = p.desc;
+  document.getElementById('pm-img').value  = p.img || '';
+  setProductImgPreview(p.img || null);
+  populateCatSelect(p.category);
+  renderTagInputs();
+  document.getElementById('product-modal').classList.add('open');
+}
+
+// ═══════════ BILD-UPLOAD (Drag & Drop / Klick / Paste) ═══════════
+function setProductImgPreview(src) {
+  var empty   = document.getElementById('pm-img-empty');
+  var preview = document.getElementById('pm-img-preview');
+  var img     = document.getElementById('pm-img-preview-img');
+  if (src) {
+    img.src = src;
+    empty.style.display = 'none';
+    preview.style.display = 'flex';
+  } else {
+    img.src = '';
+    empty.style.display = 'flex';
+    preview.style.display = 'none';
+  }
+}
+
+function clearProductImg() {
+  document.getElementById('pm-img').value = '';
+  document.getElementById('pm-img-file').value = '';
+  setProductImgPreview(null);
+}
+
+function handleImgFile(file) {
+  if (!file) return;
+  if (!file.type || file.type.indexOf('image/') !== 0) {
+    alert('Bitte eine Bilddatei auswaehlen (JPG, PNG, WEBP).');
+    return;
+  }
+  // Warnung bei sehr grossen Dateien (>4 MB) — Base64 macht ca. +33%
+  if (file.size > 4 * 1024 * 1024) {
+    if (!confirm('Die Datei ist groesser als 4 MB. Das kann den Katalog langsam machen. Trotzdem hinzufuegen?')) return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var dataUrl = e.target.result;
+    document.getElementById('pm-img').value = dataUrl;
+    setProductImgPreview(dataUrl);
+  };
+  reader.onerror = function() { alert('Datei konnte nicht gelesen werden.'); };
+  reader.readAsDataURL(file);
+}
+
+function handleImgDrop(event) {
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag');
+  var files = event.dataTransfer && event.dataTransfer.files;
+  if (files && files.length > 0) {
+    handleImgFile(files[0]);
+  }
+}
+
+// Strg+V Paste-Support: nur wenn das Produkt-Modal offen ist
+document.addEventListener('paste', function(event) {
+  var modal = document.getElementById('product-modal');
+  if (modal && modal.classList.contains('open')) {
+    var items = event.clipboardData && event.clipboardData.items;
+    if (!items) return;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].type && items[i].type.indexOf('image/') === 0) {
+        var file = items[i].getAsFile();
+        if (file) {
+          event.preventDefault();
+          handleImgFile(file);
+          return;
+        }
+      }
+    }
+    return;
+  }
+  // Auch fuer das Slide-Modal funktioniert Paste
+  var slideModal = document.getElementById('slide-img-modal');
+  if (slideModal && slideModal.classList.contains('open')) {
+    var items2 = event.clipboardData && event.clipboardData.items;
+    if (!items2) return;
+    for (var j = 0; j < items2.length; j++) {
+      if (items2[j].type && items2[j].type.indexOf('image/') === 0) {
+        var file2 = items2[j].getAsFile();
+        if (file2) {
+          event.preventDefault();
+          handleSlideImgFile(file2);
+          return;
+        }
+      }
+    }
+  }
+});
+
+// ═══════════ SLIDE-VORSCHAUBILD ("Unsere Kategorien") ═══════════
+function openSlideImg(cat) {
+  document.getElementById('sm-img-cat').value = cat;
+  document.getElementById('slide-img-cat-label').textContent = 'Kategorie: ' + cat;
+  var existing = state.categoryImages && state.categoryImages[cat];
+  setSlideImgPreview(existing || null);
+  document.getElementById('sm-img-data').value = existing || '';
+  document.getElementById('sm-img-file').value = '';
+  document.getElementById('slide-img-modal').classList.add('open');
+}
+
+function setSlideImgPreview(src) {
+  var empty   = document.getElementById('sm-img-empty');
+  var preview = document.getElementById('sm-img-preview');
+  var img     = document.getElementById('sm-img-preview-img');
+  if (src) {
+    img.src = src;
+    empty.style.display = 'none';
+    preview.style.display = 'flex';
+  } else {
+    img.src = '';
+    empty.style.display = 'flex';
+    preview.style.display = 'none';
+  }
+}
+
+function clearSlideImgPreview() {
+  document.getElementById('sm-img-data').value = '';
+  document.getElementById('sm-img-file').value = '';
+  setSlideImgPreview(null);
+}
+
+function handleSlideImgFile(file) {
+  if (!file) return;
+  if (!file.type || file.type.indexOf('image/') !== 0) {
+    alert('Bitte eine Bilddatei auswaehlen (JPG, PNG, WEBP).');
+    return;
+  }
+  if (file.size > 4 * 1024 * 1024) {
+    if (!confirm('Die Datei ist groesser als 4 MB. Das kann den Katalog langsam machen. Trotzdem hinzufuegen?')) return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var dataUrl = e.target.result;
+    document.getElementById('sm-img-data').value = dataUrl;
+    setSlideImgPreview(dataUrl);
+  };
+  reader.onerror = function() { alert('Datei konnte nicht gelesen werden.'); };
+  reader.readAsDataURL(file);
+}
+
+function handleSlideImgDrop(event) {
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag');
+  var files = event.dataTransfer && event.dataTransfer.files;
+  if (files && files.length > 0) {
+    handleSlideImgFile(files[0]);
+  }
+}
+
+function saveSlideImg() {
+  var cat  = document.getElementById('sm-img-cat').value;
+  var data = document.getElementById('sm-img-data').value;
+  if (!cat) return;
+  if (!state.categoryImages) state.categoryImages = {};
+  if (data) {
+    state.categoryImages[cat] = data;
+  } else {
+    delete state.categoryImages[cat];
+  }
+  save();
+  closeModal('slide-img-modal');
+  renderCatSlideshow();
+}
+
+function removeSlideImg(cat) {
+  if (!confirm('Vorschaubild fuer "' + cat + '" entfernen?')) return;
+  if (state.categoryImages && state.categoryImages[cat]) {
+    delete state.categoryImages[cat];
+    save();
+    renderCatSlideshow();
+  }
+}
+
+function populateCatSelect(sel) {
+  var html = '';
+  for (var i = 0; i < state.categories.length; i++) {
+    var c = state.categories[i];
+    html += '<option value="' + c + '"' + (c === sel ? ' selected' : '') + '>' + c + '</option>';
+  }
+  document.getElementById('pm-cat').innerHTML = html;
+}
+
+function renderTagInputs() {
+  var sc = document.getElementById('pm-sizes-container');
+  var cc = document.getElementById('pm-colors-container');
+  var sh = '';
+  for (var i = 0; i < state.editSizes.length; i++) {
+    sh += '<span class="tag-item">' + state.editSizes[i] + '<span class="tag-remove" onclick="removeTag(\'sizes\',' + i + ')">x</span></span>';
+  }
+  sh += '<input class="form-input" id="pm-sizes-input" placeholder="S/M/L" style="flex:1;min-width:80px" onkeydown="addTag(event,\'sizes\')">';
+  sc.innerHTML = sh;
+
+  var ch = '';
+  for (var j = 0; j < state.editColors.length; j++) {
+    ch += '<span class="tag-item">' + state.editColors[j] + '<span class="tag-remove" onclick="removeTag(\'colors\',' + j + ')">x</span></span>';
+  }
+  ch += '<input class="form-input" id="pm-colors-input" placeholder="Schwarz" style="flex:1;min-width:100px" onkeydown="addTag(event,\'colors\')">';
+  cc.innerHTML = ch;
+}
+
+function addTag(event, type) {
+  if (event.key !== 'Enter' && event.key !== ',') return;
+  event.preventDefault();
+  var val = event.target.value.trim();
+  if (!val) return;
+  if (type === 'sizes') state.editSizes.push(val);
+  else state.editColors.push(val);
+  renderTagInputs();
+}
+
+function removeTag(type, idx) {
+  if (type === 'sizes') state.editSizes.splice(idx, 1);
+  else state.editColors.splice(idx, 1);
+  renderTagInputs();
+}
+
+function saveProduct() {
+  var name = document.getElementById('pm-name').value.trim();
+  var cat  = document.getElementById('pm-cat').value;
+  var desc = document.getElementById('pm-desc').value.trim();
+  var img  = document.getElementById('pm-img').value.trim();
+  if (!name) { alert('Bitte Artikelname eingeben.'); return; }
+  if (state.editingId !== null) {
+    for (var i = 0; i < state.products.length; i++) {
+      if (state.products[i].id === state.editingId) {
+        state.products[i].name     = name;
+        state.products[i].category = cat;
+        state.products[i].desc     = desc;
+        state.products[i].sizes    = state.editSizes.slice();
+        state.products[i].colors   = state.editColors.slice();
+        state.products[i].img      = img || null;
+        break;
+      }
+    }
+  } else {
+    state.products.push({
+      id: state.nextId++,
+      name: name, category: cat, desc: desc,
+      sizes: state.editSizes.slice(), colors: state.editColors.slice(),
+      img: img || null
+    });
+  }
+  save();
+  closeModal('product-modal');
+  renderNav();
+  renderCatTabs();
+  renderProducts();
+}
+
+function deleteProduct(id) {
+  if (!confirm('Artikel loeschen?')) return;
+  var newProds = [];
+  for (var i = 0; i < state.products.length; i++) {
+    if (state.products[i].id !== id) newProds.push(state.products[i]);
+  }
+  state.products = newProds;
+  var newCart = [];
+  for (var j = 0; j < state.cart.length; j++) {
+    if (state.cart[j].id !== id) newCart.push(state.cart[j]);
+  }
+  state.cart = newCart;
+  save();
+  renderProducts();
+  updateCartBadge();
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function openCatManager() {
+  renderCatManageList();
+  document.getElementById('cat-modal').classList.add('open');
+}
+
+function renderCatManageList() {
+  var html = '';
+  for (var i = 0; i < state.categories.length; i++) {
+    html += '<div class="cat-chip">' + state.categories[i] + '<span class="chip-del" onclick="deleteCat(' + i + ')">x</span></div>';
+  }
+  document.getElementById('cat-manage-list').innerHTML = html;
+}
+
+function addCategory() {
+  var val = document.getElementById('new-cat-input').value.trim();
+  if (!val) return;
+  if (state.categories.indexOf(val) === -1) {
+    state.categories.push(val);
+    save();
+    renderCatManageList();
+    renderNav();
+    renderCatTabs();
+    renderProducts();
+    renderCatSlideshow();
+  }
+  document.getElementById('new-cat-input').value = '';
+}
+
+function deleteCat(idx) {
+  var cat = state.categories[idx];
+  var hasProds = false;
+  for (var i = 0; i < state.products.length; i++) {
+    if (state.products[i].category === cat) { hasProds = true; break; }
+  }
+  if (hasProds && !confirm('Kategorie "' + cat + '" loeschen?')) return;
+  state.categories.splice(idx, 1);
+  if (state.activeCategory === cat) state.activeCategory = 'Alle';
+  save();
+  renderCatManageList();
+  renderNav();
+  renderCatTabs();
+  renderProducts();
+  renderCatSlideshow();
+}
+
+function openPwChange() {
+  document.getElementById('new-pw-customer').value = '';
+  document.getElementById('new-pw-admin').value = '';
+  document.getElementById('pw-modal').classList.add('open');
+}
+
+function savePw() {
+  var c = document.getElementById('new-pw-customer').value;
+  var a = document.getElementById('new-pw-admin').value;
+  if (c) state.passwordCustomer = c;
+  if (a) state.passwordAdmin = a;
+  save();
+  alert('Passwoerter gespeichert!');
+  document.getElementById('pw-modal').classList.remove('open');
+}
+
+function openSettings() {
+  document.getElementById('set-wa-num').value = state.whatsappNumber;
+  document.getElementById('settings-modal').classList.add('open');
+}
+
+function saveSettings() {
+  var v = document.getElementById('set-wa-num').value.trim();
+  if (v) state.whatsappNumber = v;
+  save();
+  alert('Gespeichert!');
+  document.getElementById('settings-modal').classList.remove('open');
+}
+
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+document.getElementById('new-cat-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') addCategory();
+});
+
+var bgs = document.querySelectorAll('.modal-bg');
+for (var b = 0; b < bgs.length; b++) {
+  bgs[b].addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+}
+
+init();
+</script>
+</body>
+</html>
